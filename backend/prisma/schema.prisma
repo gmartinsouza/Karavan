@@ -1,0 +1,116 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum FuelType {
+  GASOLINE
+  ETHANOL
+  FLEX
+  DIESEL
+  CNG
+  ELECTRIC
+
+  @@map("fuel_type")
+}
+
+enum MaintenanceKind {
+  PART
+  SERVICE
+
+  @@map("maintenance_kind")
+}
+
+model User {
+  id           String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  email        String   @unique
+  name         String
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  vehicles Vehicle[]
+
+  @@map("users")
+}
+
+model Vehicle {
+  id         String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  brand      String
+  model      String
+  year       Int      @db.SmallInt
+  plate      String   @db.VarChar(7)
+  fuelType   FuelType @map("fuel_type")
+  odometerKm Int      @map("odometer_km")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fuelings     Fueling[]
+  maintenances Maintenance[]
+  reviewPlans  ReviewPlan[]
+
+  @@unique([userId, plate])
+  @@index([userId, id])
+  @@map("vehicles")
+}
+
+model Fueling {
+  id            String   @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  vehicleId     String   @map("vehicle_id") @db.Uuid
+  filledAt      DateTime @map("filled_at") @db.Timestamptz
+  liters        Decimal  @db.Decimal(7, 3)
+  pricePerLiter Decimal  @map("price_per_liter") @db.Decimal(6, 3)
+  totalCost     Decimal  @map("total_cost") @db.Decimal(10, 2)
+  odometerKm    Int      @map("odometer_km")
+  station       String?
+  fullTank      Boolean  @map("full_tank")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId, filledAt(sort: Desc), id(sort: Desc)])
+  @@index([vehicleId, odometerKm])
+  @@map("fuelings")
+}
+
+model Maintenance {
+  id          String          @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  vehicleId   String          @map("vehicle_id") @db.Uuid
+  kind        MaintenanceKind
+  item        String
+  performedAt DateTime        @map("performed_at") @db.Timestamptz
+  odometerKm  Int             @map("odometer_km")
+  cost        Decimal         @db.Decimal(10, 2)
+  workshop    String?
+  notes       String?
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId, performedAt(sort: Desc), id(sort: Desc)])
+  @@map("maintenances")
+}
+
+model ReviewPlan {
+  id             String    @id @default(dbgenerated("uuidv7()")) @db.Uuid
+  vehicleId      String    @map("vehicle_id") @db.Uuid
+  name           String
+  intervalKm     Int?      @map("interval_km")
+  intervalMonths Int?      @map("interval_months") @db.SmallInt
+  lastDoneAt     DateTime  @map("last_done_at") @db.Timestamptz
+  lastDoneKm     Int       @map("last_done_km")
+  lastAlertedAt  DateTime? @map("last_alerted_at") @db.Timestamptz
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@index([vehicleId])
+  @@map("review_plans")
+}

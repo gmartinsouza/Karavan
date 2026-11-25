@@ -6,6 +6,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   SHUTDOWN_TIMEOUT_MS: z.coerce.number().int().positive().default(10_000),
+  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
 });
 
 export interface Config {
@@ -14,6 +15,7 @@ export interface Config {
   port: number;
   logLevel: string;
   shutdownTimeoutMs: number;
+  databaseUrl: string;
 }
 
 export class InvalidConfigError extends Error {
@@ -37,5 +39,6 @@ export function loadConfig(env: NodeJS.ProcessEnv): Config {
     port: values.PORT,
     logLevel: values.LOG_LEVEL,
     shutdownTimeoutMs: values.SHUTDOWN_TIMEOUT_MS,
+    databaseUrl: values.DATABASE_URL,
   };
 }

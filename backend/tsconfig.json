@@ -20,5 +20,5 @@
     "rootDir": ".",
     "sourceMap": true
   },
-  "include": ["src", "test", "*.config.ts"]
+  "include": ["src", "test", "prisma", "*.config.ts"]
 }

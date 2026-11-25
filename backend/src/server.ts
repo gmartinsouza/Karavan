@@ -1,8 +1,10 @@
 import { buildApp } from './app.js';
 import { loadConfig } from './config.js';
+import { createDatabase, databaseReadinessCheck } from './shared/database.js';
 
 const config = loadConfig(process.env);
-const app = await buildApp({ config });
+const database = createDatabase(config.databaseUrl);
+const app = await buildApp({ config, readinessChecks: [databaseReadinessCheck(database)] });
 
 let shuttingDown = false;
 
@@ -21,6 +23,7 @@ async function shutdown(signal: NodeJS.Signals) {
 
   try {
     await app.close();
+    await database.$disconnect();
     process.exit(0);
   } catch (error) {
     app.log.error({ err: error }, 'erro ao encerrar');
