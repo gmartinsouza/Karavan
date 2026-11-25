@@ -6,10 +6,12 @@ import type { Vehicle } from '../types';
 import { useApi } from '../useApi';
 import { ConsumptionTab } from './vehicle/ConsumptionTab';
 import { FuelingsTab } from './vehicle/FuelingsTab';
+import { MaintenancesTab } from './vehicle/MaintenancesTab';
 
 const tabs = {
   fuelings: 'Abastecimentos',
   consumption: 'Consumo',
+  maintenances: 'Manutenções',
 };
 type Tab = keyof typeof tabs;
 
@@ -58,6 +60,7 @@ export function VehiclePage() {
       {/* onChange recarrega o veículo, porque um lançamento novo pode subir o odômetro */}
       {tab === 'fuelings' && <FuelingsTab vehicle={vehicle} onChange={reload} />}
       {tab === 'consumption' && <ConsumptionTab vehicleId={vehicle.id} />}
+      {tab === 'maintenances' && <MaintenancesTab vehicle={vehicle} onChange={reload} />}
     </>
   );
 }
