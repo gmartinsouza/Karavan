@@ -2,6 +2,7 @@
 import { Navigate, Route, Routes } from 'react-router';
 import { Layout } from './components/Layout';
 import { RequireAuth } from './components/RequireAuth';
+import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { VehiclePage } from './pages/VehiclePage';
@@ -19,7 +20,7 @@ export function App() {
           </RequireAuth>
         }
       >
-        <Route path="/" element={<Navigate to="/veiculos" replace />} />
+        <Route path="/" element={<DashboardPage />} />
         <Route path="/veiculos" element={<VehiclesPage />} />
         <Route path="/veiculos/:vehicleId" element={<VehiclePage />} />
       </Route>
