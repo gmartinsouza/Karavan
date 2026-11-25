@@ -13,7 +13,15 @@ import { createAuthenticate } from './modules/auth/authenticate.js';
 import { authRoutes } from './modules/auth/routes.js';
 import { createAuthService } from './modules/auth/service.js';
 import { createTokenService } from './modules/auth/tokens.js';
+import { fuelingRoutes } from './modules/fuelings/routes.js';
+import { createFuelingService } from './modules/fuelings/service.js';
 import { healthRoutes, type ReadinessCheck } from './modules/health/routes.js';
+import { maintenanceRoutes } from './modules/maintenances/routes.js';
+import { createMaintenanceService } from './modules/maintenances/service.js';
+import { reviewRoutes } from './modules/reviews/routes.js';
+import { createReviewService } from './modules/reviews/service.js';
+import { vehicleRoutes } from './modules/vehicles/routes.js';
+import { createVehicleService } from './modules/vehicles/service.js';
 import { databaseReadinessCheck, type Database } from './shared/database.js';
 import { registerErrorHandling } from './shared/errors.js';
 import { loggerOptions } from './shared/logger.js';
@@ -69,6 +77,26 @@ export async function buildApp({ config, database, readinessChecks }: AppDepende
     readinessChecks: readinessChecks ?? [databaseReadinessCheck(database)],
   });
   await app.register(authRoutes, { prefix: '/api/v1', auth, authenticate });
+  await app.register(vehicleRoutes, {
+    prefix: '/api/v1',
+    vehicles: createVehicleService({ database }),
+    authenticate,
+  });
+  await app.register(fuelingRoutes, {
+    prefix: '/api/v1',
+    fuelings: createFuelingService({ database }),
+    authenticate,
+  });
+  await app.register(maintenanceRoutes, {
+    prefix: '/api/v1',
+    maintenances: createMaintenanceService({ database }),
+    authenticate,
+  });
+  await app.register(reviewRoutes, {
+    prefix: '/api/v1',
+    reviews: createReviewService({ database }),
+    authenticate,
+  });
 
   return app;
 }

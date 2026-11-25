@@ -28,6 +28,8 @@ export class HttpProblem extends Error {
 }
 
 export const problems = {
+  badRequest: (slug: string, detail: string) =>
+    new HttpProblem(400, slug, 'Requisição inválida', detail),
   unauthorized: (detail = 'Credenciais ausentes ou inválidas.') =>
     new HttpProblem(401, 'unauthorized', 'Não autenticado', detail),
   notFound: (detail: string) => new HttpProblem(404, 'not-found', 'Não encontrado', detail),
