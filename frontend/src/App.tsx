@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { RequireAuth } from './components/RequireAuth';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { VehiclePage } from './pages/VehiclePage';
 import { VehiclesPage } from './pages/VehiclesPage';
 
 export function App() {
@@ -20,6 +21,7 @@ export function App() {
       >
         <Route path="/" element={<Navigate to="/veiculos" replace />} />
         <Route path="/veiculos" element={<VehiclesPage />} />
+        <Route path="/veiculos/:vehicleId" element={<VehiclePage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
