@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import cookie from '@fastify/cookie';
+import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import Fastify, { LogController } from 'fastify';
@@ -45,6 +47,11 @@ export async function buildApp({ config, database, readinessChecks }: AppDepende
   app.decorateRequest('userId', '');
   registerErrorHandling(app);
 
+  // CORS: só o front-end configurado pode chamar a API pelo navegador.
+  // credentials: true deixa o navegador enviar o cookie do refresh token.
+  await app.register(cors, { origin: config.corsOrigin, credentials: true });
+  await app.register(cookie);
+
   await app.register(swagger, {
     openapi: {
       info: {
@@ -76,7 +83,15 @@ export async function buildApp({ config, database, readinessChecks }: AppDepende
   await app.register(healthRoutes, {
     readinessChecks: readinessChecks ?? [databaseReadinessCheck(database)],
   });
-  await app.register(authRoutes, { prefix: '/api/v1', auth, authenticate });
+  await app.register(authRoutes, {
+    prefix: '/api/v1',
+    auth,
+    authenticate,
+    refreshCookie: {
+      secure: config.env === 'production',
+      maxAgeSeconds: config.auth.refreshTokenTtlDays * 24 * 60 * 60,
+    },
+  });
   await app.register(vehicleRoutes, {
     prefix: '/api/v1',
     vehicles: createVehicleService({ database }),

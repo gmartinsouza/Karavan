@@ -22,8 +22,10 @@ export const loginBody = z.object({
   password: z.string().min(1).max(128).meta({ example: 'caravana123' }),
 });
 
+// O navegador manda o refresh token no cookie httpOnly e o corpo pode vir vazio ({}).
+// Outros clientes (Swagger, apps) ainda podem mandar o token no corpo.
 export const refreshBody = z.object({
-  refreshToken: z.string().min(1),
+  refreshToken: z.string().min(1).optional(),
 });
 
 export const userResponse = z.object({

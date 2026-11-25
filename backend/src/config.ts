@@ -10,6 +10,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32, 'precisa ter pelo menos 32 caracteres'),
   ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().default(900),
   REFRESH_TOKEN_TTL_DAYS: z.coerce.number().int().positive().default(30),
+  // endereço do front-end que pode chamar a API pelo navegador (CORS)
+  CORS_ORIGIN: z.url().default('http://localhost:5173'),
 });
 
 export interface Config {
@@ -19,6 +21,7 @@ export interface Config {
   logLevel: string;
   shutdownTimeoutMs: number;
   databaseUrl: string;
+  corsOrigin: string;
   auth: {
     jwtSecret: string;
     accessTokenTtlSeconds: number;
@@ -48,6 +51,7 @@ export function loadConfig(env: NodeJS.ProcessEnv): Config {
     logLevel: values.LOG_LEVEL,
     shutdownTimeoutMs: values.SHUTDOWN_TIMEOUT_MS,
     databaseUrl: values.DATABASE_URL,
+    corsOrigin: values.CORS_ORIGIN,
     auth: {
       jwtSecret: values.JWT_SECRET,
       accessTokenTtlSeconds: values.ACCESS_TOKEN_TTL_SECONDS,
