@@ -2,7 +2,7 @@
 
 Front-end em React do [Caravana](https://github.com/rafaelsampa/gm-projeto), uma API de controle de veículos: abastecimentos, consumo, manutenções e revisões.
 
-Feito para ser simples de ler: React + TypeScript + Vite, React Router para as rotas e CSS puro, sem biblioteca de componentes.
+Feito para ser simples de ler: React + TypeScript + Vite, React Router para as rotas e Tailwind CSS para o visual, sem biblioteca de componentes.
 
 ## Rodando
 

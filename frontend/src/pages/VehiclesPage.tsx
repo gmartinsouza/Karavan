@@ -49,7 +49,7 @@ export function VehiclesPage() {
 
   return (
     <>
-      <div className="page-header">
+      <div className="mb-4 flex items-center justify-between">
         <h1>Veículos</h1>
         <button onClick={() => setShowForm(!showForm)}>
           {showForm ? 'Cancelar' : 'Novo veículo'}
@@ -57,7 +57,10 @@ export function VehiclesPage() {
       </div>
 
       {showForm && (
-        <form className="card form-grid" onSubmit={handleSubmit}>
+        <form
+          className="card grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-end gap-x-4 gap-y-3"
+          onSubmit={handleSubmit}
+        >
           <label>
             Marca
             <input
@@ -122,26 +125,29 @@ export function VehiclesPage() {
 
       <ErrorMessage message={error} />
       {data && data.items.length === 0 && (
-        <p className="muted">Nenhum veículo ainda. Cadastre o primeiro.</p>
+        <p className="text-gray-500">Nenhum veículo ainda. Cadastre o primeiro.</p>
       )}
 
-      <div className="cards">
+      <div className="mb-4 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
         {data?.items.map((vehicle) => (
-          <div className="card" key={vehicle.id}>
+          <div className="card mb-0" key={vehicle.id}>
             <h2>
               <Link to={`/veiculos/${vehicle.id}`}>
                 {vehicle.brand} {vehicle.model}
               </Link>
             </h2>
-            <p className="muted">
+            <p className="text-gray-500">
               {vehicle.year} · {vehicle.plate} · {fuelTypeLabels[vehicle.fuelType]}
             </p>
             <p>{formatKm(vehicle.odometerKm)}</p>
-            <div className="actions">
-              <Link className="button" to={`/veiculos/${vehicle.id}`}>
+            <div className="mt-2 flex items-center gap-3">
+              <Link
+                className="inline-block rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 hover:no-underline"
+                to={`/veiculos/${vehicle.id}`}
+              >
                 Abrir
               </Link>
-              <button className="danger" onClick={() => handleDelete(vehicle)}>
+              <button className="bg-red-600 hover:bg-red-700" onClick={() => handleDelete(vehicle)}>
                 Apagar
               </button>
             </div>

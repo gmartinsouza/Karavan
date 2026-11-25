@@ -53,8 +53,11 @@ export function MaintenancesTab({ vehicle, onChange }: { vehicle: Vehicle; onCha
 
   return (
     <>
-      <form className="card form-grid" onSubmit={handleSubmit}>
-        <h2 className="full">Nova manutenção</h2>
+      <form
+        className="card grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-end gap-x-4 gap-y-3"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="col-span-full">Nova manutenção</h2>
         <label>
           Tipo
           <select
@@ -112,7 +115,7 @@ export function MaintenancesTab({ vehicle, onChange }: { vehicle: Vehicle; onCha
             onChange={(e) => setForm({ ...form, workshop: e.target.value })}
           />
         </label>
-        <label className="full">
+        <label className="col-span-full">
           Observações
           <textarea
             value={form.notes}
@@ -121,15 +124,17 @@ export function MaintenancesTab({ vehicle, onChange }: { vehicle: Vehicle; onCha
           />
         </label>
         <ErrorMessage message={formError} />
-        <div className="actions full">
+        <div className="col-span-full mt-2 flex items-center gap-3">
           <button type="submit">Registrar</button>
         </div>
       </form>
 
       <ErrorMessage message={error} />
-      {data && data.items.length === 0 && <p className="muted">Nenhuma manutenção registrada.</p>}
+      {data && data.items.length === 0 && (
+        <p className="text-gray-500">Nenhuma manutenção registrada.</p>
+      )}
       {data && data.items.length > 0 && (
-        <div className="table-wrapper">
+        <div className="mb-4 overflow-x-auto rounded-lg border border-gray-200 bg-white">
           <table>
             <thead>
               <tr>
@@ -137,8 +142,8 @@ export function MaintenancesTab({ vehicle, onChange }: { vehicle: Vehicle; onCha
                 <th>Item</th>
                 <th>Tipo</th>
                 <th>Oficina</th>
-                <th className="num">Odômetro</th>
-                <th className="num">Custo</th>
+                <th className="text-right tabular-nums">Odômetro</th>
+                <th className="text-right tabular-nums">Custo</th>
                 <th></th>
               </tr>
             </thead>
@@ -148,14 +153,19 @@ export function MaintenancesTab({ vehicle, onChange }: { vehicle: Vehicle; onCha
                   <td>{formatDate(maintenance.performedAt)}</td>
                   <td>
                     {maintenance.item}
-                    {maintenance.notes && <div className="muted small">{maintenance.notes}</div>}
+                    {maintenance.notes && (
+                      <div className="text-sm text-gray-500">{maintenance.notes}</div>
+                    )}
                   </td>
                   <td>{maintenance.kind === 'PART' ? 'Peça' : 'Serviço'}</td>
                   <td>{maintenance.workshop ?? '-'}</td>
-                  <td className="num">{formatKm(maintenance.odometerKm)}</td>
-                  <td className="num">{formatMoney(maintenance.cost)}</td>
+                  <td className="text-right tabular-nums">{formatKm(maintenance.odometerKm)}</td>
+                  <td className="text-right tabular-nums">{formatMoney(maintenance.cost)}</td>
                   <td>
-                    <button className="link danger" onClick={() => handleDelete(maintenance)}>
+                    <button
+                      className="bg-transparent p-0 text-red-600 hover:bg-transparent hover:underline"
+                      onClick={() => handleDelete(maintenance)}
+                    >
                       Apagar
                     </button>
                   </td>

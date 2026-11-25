@@ -35,23 +35,27 @@ export function VehiclePage() {
       <p>
         <Link to="/veiculos">← Veículos</Link>
       </p>
-      <div className="page-header">
+      <div className="mb-4 flex items-center justify-between">
         <div>
           <h1>
             {vehicle.brand} {vehicle.model}
           </h1>
-          <p className="muted">
+          <p className="text-gray-500">
             {vehicle.year} · {vehicle.plate} · {fuelTypeLabels[vehicle.fuelType]} ·{' '}
             {formatKm(vehicle.odometerKm)}
           </p>
         </div>
       </div>
 
-      <div className="tabs">
+      <div className="mb-4 flex gap-1 border-b border-gray-200">
         {(Object.keys(tabs) as Tab[]).map((key) => (
           <button
             key={key}
-            className={tab === key ? 'tab active' : 'tab'}
+            className={
+              tab === key
+                ? 'rounded-none border-b-2 border-blue-600 bg-transparent font-semibold text-gray-900 hover:bg-transparent'
+                : 'rounded-none border-b-2 border-transparent bg-transparent text-gray-500 hover:bg-transparent hover:text-gray-900'
+            }
             onClick={() => setTab(key)}
           >
             {tabs[key]}

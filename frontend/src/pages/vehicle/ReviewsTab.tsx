@@ -80,15 +80,17 @@ export function ReviewsTab({ vehicle }: { vehicle: Vehicle }) {
   return (
     <>
       <ErrorMessage message={error} />
-      {reviews && reviews.length === 0 && <p className="muted">Nenhuma revisão programada.</p>}
-      <div className="cards">
+      {reviews && reviews.length === 0 && (
+        <p className="text-gray-500">Nenhuma revisão programada.</p>
+      )}
+      <div className="mb-4 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
         {reviews?.map((review) => (
-          <div className="card" key={review.id}>
-            <div className="card-title">
+          <div className="card mb-0" key={review.id}>
+            <div className="flex items-start justify-between gap-2">
               <h2>{review.name}</h2>
               <ReviewStatus status={review.status} />
             </div>
-            <p className="muted">
+            <p className="text-gray-500">
               A cada {review.intervalKm ? formatKm(review.intervalKm) : ''}
               {review.intervalKm && review.intervalMonths ? ' ou ' : ''}
               {review.intervalMonths ? `${review.intervalMonths} meses` : ''}
@@ -101,10 +103,13 @@ export function ReviewsTab({ vehicle }: { vehicle: Vehicle }) {
               {review.dueKm !== null && review.dueDate && ' ou '}
               {review.dueDate && formatDate(review.dueDate)}
             </p>
-            <p className="muted">{remaining(review)}</p>
-            <div className="actions">
+            <p className="text-gray-500">{remaining(review)}</p>
+            <div className="mt-2 flex items-center gap-3">
               <button onClick={() => markDone(review)}>Fiz hoje</button>
-              <button className="link danger" onClick={() => handleDelete(review)}>
+              <button
+                className="bg-transparent p-0 text-red-600 hover:bg-transparent hover:underline"
+                onClick={() => handleDelete(review)}
+              >
                 Apagar
               </button>
             </div>
@@ -112,8 +117,11 @@ export function ReviewsTab({ vehicle }: { vehicle: Vehicle }) {
         ))}
       </div>
 
-      <form className="card form-grid" onSubmit={handleSubmit}>
-        <h2 className="full">Programar revisão</h2>
+      <form
+        className="card grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-end gap-x-4 gap-y-3"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="col-span-full">Programar revisão</h2>
         <label>
           Nome
           <input
@@ -162,7 +170,7 @@ export function ReviewsTab({ vehicle }: { vehicle: Vehicle }) {
           />
         </label>
         <ErrorMessage message={formError} />
-        <div className="actions full">
+        <div className="col-span-full mt-2 flex items-center gap-3">
           <button type="submit">Programar</button>
         </div>
       </form>

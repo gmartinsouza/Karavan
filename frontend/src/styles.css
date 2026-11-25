@@ -1,455 +1,65 @@
-/* Estilos do Karavan: CSS puro, sem biblioteca.
-   As cores ficam em variáveis para mudar o tema num lugar só. */
-
-:root {
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --text: #1f2937;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --danger: #dc2626;
-  --ok: #15803d;
-  --warning: #b45309;
-  --radius: 8px;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  color: var(--text);
-  background: var(--bg);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1 {
-  font-size: 1.6rem;
-  margin: 0 0 0.25rem;
-}
-
-h2 {
-  font-size: 1.1rem;
-  margin: 0 0 0.5rem;
-}
-
-a {
-  color: var(--primary);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.small {
-  font-size: 0.85rem;
-}
-
-.center {
-  text-align: center;
-  margin-top: 4rem;
-}
-
-.error {
-  color: var(--danger);
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: var(--radius);
-  padding: 0.5rem 0.75rem;
-  grid-column: 1 / -1;
-}
-
-/* ---------- Barra de cima ---------- */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: var(--primary);
-}
-
-.topbar nav {
-  display: flex;
-  gap: 1rem;
-  flex: 1;
-}
-
-.topbar nav a {
-  color: var(--muted);
-  padding: 0.25rem 0;
-}
-
-.topbar nav a.active {
-  color: var(--text);
-  font-weight: 600;
-  border-bottom: 2px solid var(--primary);
-}
-
-.user {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  color: var(--muted);
-}
-
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.5rem;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-/* ---------- Cartões ---------- */
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
-}
-
-.card p {
-  margin: 0.35rem 0;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.cards .card {
-  margin-bottom: 0;
-}
-
-.card-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 0.5rem;
-}
-
-.stat-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.stat-row .card {
-  margin-bottom: 0;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.stat-label {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.plain-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.5rem;
-}
-
-/* ---------- Formulários ---------- */
-
-label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-label.checkbox {
-  flex-direction: row;
-  align-items: center;
-  font-weight: 400;
-}
-
-input,
-select,
-textarea {
-  font: inherit;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: -1px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem 1rem;
-  align-items: end;
-}
-
-.full {
-  grid-column: 1 / -1;
-}
-
-/* ---------- Botões ---------- */
-
-button,
-.button {
-  font: inherit;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  background: var(--primary);
-  color: white;
-  display: inline-block;
-}
-
-button:hover,
-.button:hover {
-  background: var(--primary-dark);
-  text-decoration: none;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-button.secondary {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-button.danger {
-  background: var(--danger);
-}
-
-button.link {
-  background: none;
-  color: var(--primary);
-  padding: 0;
-}
-
-button.link.danger {
-  color: var(--danger);
-}
-
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-td.actions {
-  margin: 0;
-}
-
-/* ---------- Abas ---------- */
-
-.tabs {
-  display: flex;
-  gap: 0.25rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1rem;
-}
-
-button.tab {
-  background: none;
-  color: var(--muted);
-  border-radius: 0;
-  border-bottom: 2px solid transparent;
-}
-
-button.tab.active {
-  color: var(--text);
-  font-weight: 600;
-  border-bottom-color: var(--primary);
-}
-
-/* ---------- Tabelas ---------- */
-
-.table-wrapper {
-  overflow-x: auto; /* rolagem lateral em telas pequenas */
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 0.6rem 0.75rem;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
-}
-
-th {
-  color: var(--muted);
-  font-weight: 500;
-}
-
-tr:last-child td {
-  border-bottom: none;
-}
-
-.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------- Status das revisões ---------- */
-
-.badge {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.badge-ok {
-  color: var(--ok);
-  background: #dcfce7;
-}
-
-.badge-due_soon {
-  color: var(--warning);
-  background: #fef3c7;
-}
-
-.badge-overdue {
-  color: var(--danger);
-  background: #fee2e2;
-}
-
-/* ---------- Gráfico de barras ---------- */
-
-.chart {
-  margin: 0.5rem 0 0;
-}
-
-.chart figcaption {
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
-
-.chart-bars {
-  display: flex;
-  gap: 2px;
-  height: 140px;
-  border-bottom: 1px solid var(--border);
-}
-
-.chart-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.chart-bar-area {
-  flex: 1;
-  display: flex;
-  align-items: flex-end; /* a barra cresce de baixo para cima */
-  justify-content: center;
-}
-
-.chart-bar {
-  width: 70%;
-  max-width: 36px;
-  background: var(--primary);
-  border-radius: 4px 4px 0 0;
-}
-
-.chart-column:hover .chart-bar {
-  background: var(--primary-dark);
-}
-
-.chart-label {
-  font-size: 0.7rem;
-  color: var(--muted);
-  text-align: center;
-  margin-top: 0.25rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* ---------- Login e cadastro ---------- */
-
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.auth-card h1 {
-  color: var(--primary);
+/* O Tailwind gera as classes utilitárias (flex, p-4, text-gray-500...) usadas nos componentes.
+   Aqui ficam só os estilos que se repetem em muitas telas. */
+@import 'tailwindcss';
+
+/* Estilos padrão das tags HTML */
+@layer base {
+  body {
+    @apply bg-gray-100 font-sans text-gray-800;
+  }
+
+  h1 {
+    @apply mb-1 text-2xl font-bold;
+  }
+
+  h2 {
+    @apply mb-2 text-lg font-semibold;
+  }
+
+  a {
+    @apply text-blue-600 hover:underline;
+  }
+
+  label {
+    @apply flex flex-col gap-1 text-sm font-medium;
+  }
+
+  input,
+  select,
+  textarea {
+    @apply rounded-md border border-gray-200 bg-white px-2.5 py-2 font-normal focus:outline-2 focus:outline-blue-600;
+  }
+
+  /* botão padrão: azul. Os outros estilos de botão vêm de classes no próprio botão. */
+  button {
+    @apply cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-default disabled:opacity-60;
+  }
+
+  table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  th,
+  td {
+    @apply border-b border-gray-200 px-3 py-2.5 text-left whitespace-nowrap;
+  }
+
+  th {
+    @apply font-medium text-gray-500;
+  }
+
+  tr:last-child td {
+    @apply border-b-0;
+  }
+}
+
+/* Peças reutilizadas */
+@layer components {
+  .card {
+    @apply mb-4 rounded-lg border border-gray-200 bg-white px-5 py-4;
+  }
+
+  .card p {
+    @apply my-1.5;
+  }
 }

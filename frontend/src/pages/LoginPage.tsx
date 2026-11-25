@@ -32,10 +32,12 @@ export function LoginPage() {
   }
 
   return (
-    <div className="auth-page">
-      <form className="card auth-card" onSubmit={handleSubmit}>
-        <h1>Karavan</h1>
-        <p className="muted">Controle de abastecimentos, manutenções e revisões do seu carro.</p>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <form className="card flex w-full max-w-sm flex-col gap-4" onSubmit={handleSubmit}>
+        <h1 className="text-blue-600">Karavan</h1>
+        <p className="text-gray-500">
+          Controle de abastecimentos, manutenções e revisões do seu carro.
+        </p>
         <label>
           E-mail
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -53,7 +55,7 @@ export function LoginPage() {
         <button type="submit" disabled={sending}>
           {sending ? 'Entrando...' : 'Entrar'}
         </button>
-        <p className="muted">
+        <p className="text-gray-500">
           Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
         </p>
       </form>

@@ -61,29 +61,29 @@ export function DashboardPage() {
         </p>
       ) : (
         <>
-          <div className="stat-row">
-            <div className="card stat">
-              <span className="stat-label">Veículos</span>
-              <span className="stat-value">{summaries.length}</span>
+          <div className="my-4 grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
+            <div className="card mb-0 flex flex-col gap-1">
+              <span className="text-sm text-gray-500">Veículos</span>
+              <span className="text-2xl font-semibold">{summaries.length}</span>
             </div>
-            <div className="card stat">
-              <span className="stat-label">Total em combustível</span>
-              <span className="stat-value">{formatMoney(totalFuel)}</span>
+            <div className="card mb-0 flex flex-col gap-1">
+              <span className="text-sm text-gray-500">Total em combustível</span>
+              <span className="text-2xl font-semibold">{formatMoney(totalFuel)}</span>
             </div>
-            <div className="card stat">
-              <span className="stat-label">Total em manutenção</span>
-              <span className="stat-value">{formatMoney(totalMaintenance)}</span>
+            <div className="card mb-0 flex flex-col gap-1">
+              <span className="text-sm text-gray-500">Total em manutenção</span>
+              <span className="text-2xl font-semibold">{formatMoney(totalMaintenance)}</span>
             </div>
-            <div className="card stat">
-              <span className="stat-label">Revisões pendentes</span>
-              <span className="stat-value">{pendingReviews.length}</span>
+            <div className="card mb-0 flex flex-col gap-1">
+              <span className="text-sm text-gray-500">Revisões pendentes</span>
+              <span className="text-2xl font-semibold">{pendingReviews.length}</span>
             </div>
           </div>
 
           {pendingReviews.length > 0 && (
             <div className="card">
               <h2>Revisões que pedem atenção</h2>
-              <ul className="plain-list">
+              <ul className="grid gap-2">
                 {pendingReviews.map(({ vehicle, review }) => (
                   <li key={review.id}>
                     <ReviewStatus status={review.status} /> {review.name} ·{' '}
@@ -96,15 +96,15 @@ export function DashboardPage() {
             </div>
           )}
 
-          <div className="cards">
+          <div className="mb-4 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
             {summaries.map(({ vehicle, stats }) => (
-              <div className="card" key={vehicle.id}>
+              <div className="card mb-0" key={vehicle.id}>
                 <h2>
                   <Link to={`/veiculos/${vehicle.id}`}>
                     {vehicle.brand} {vehicle.model}
                   </Link>
                 </h2>
-                <p className="muted">
+                <p className="text-gray-500">
                   {vehicle.plate} · {formatKm(vehicle.odometerKm)}
                 </p>
                 <p>

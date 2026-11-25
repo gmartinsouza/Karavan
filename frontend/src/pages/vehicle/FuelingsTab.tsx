@@ -110,8 +110,13 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
 
   return (
     <>
-      <form className="card form-grid" onSubmit={handleSubmit}>
-        <h2 className="full">{editingId ? 'Editar abastecimento' : 'Novo abastecimento'}</h2>
+      <form
+        className="card grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-end gap-x-4 gap-y-3"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="col-span-full">
+          {editingId ? 'Editar abastecimento' : 'Novo abastecimento'}
+        </h2>
         <label>
           Data e hora
           <input
@@ -172,7 +177,7 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
             placeholder="Posto Trevo"
           />
         </label>
-        <label className="checkbox">
+        <label className="flex-row items-center font-normal">
           <input
             type="checkbox"
             checked={form.fullTank}
@@ -181,10 +186,14 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
           Completei o tanque (usado no cálculo de km/l)
         </label>
         <ErrorMessage message={error} />
-        <div className="actions full">
+        <div className="col-span-full mt-2 flex items-center gap-3">
           <button type="submit">{editingId ? 'Salvar alterações' : 'Registrar'}</button>
           {editingId && (
-            <button type="button" className="secondary" onClick={cancelEdit}>
+            <button
+              type="button"
+              className="border border-gray-200 bg-white text-gray-800 hover:bg-gray-50"
+              onClick={cancelEdit}
+            >
               Cancelar
             </button>
           )}
@@ -192,18 +201,18 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
       </form>
 
       {items.length === 0 ? (
-        <p className="muted">Nenhum abastecimento registrado.</p>
+        <p className="text-gray-500">Nenhum abastecimento registrado.</p>
       ) : (
-        <div className="table-wrapper">
+        <div className="mb-4 overflow-x-auto rounded-lg border border-gray-200 bg-white">
           <table>
             <thead>
               <tr>
                 <th>Data</th>
                 <th>Posto</th>
-                <th className="num">Litros</th>
-                <th className="num">R$/litro</th>
-                <th className="num">Total</th>
-                <th className="num">Odômetro</th>
+                <th className="text-right tabular-nums">Litros</th>
+                <th className="text-right tabular-nums">R$/litro</th>
+                <th className="text-right tabular-nums">Total</th>
+                <th className="text-right tabular-nums">Odômetro</th>
                 <th>Tanque</th>
                 <th></th>
               </tr>
@@ -213,16 +222,22 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
                 <tr key={fueling.id}>
                   <td>{formatDateTime(fueling.filledAt)}</td>
                   <td>{fueling.station ?? '-'}</td>
-                  <td className="num">{formatNumber(fueling.liters)}</td>
-                  <td className="num">{formatMoney(fueling.pricePerLiter)}</td>
-                  <td className="num">{formatMoney(fueling.totalCost)}</td>
-                  <td className="num">{formatKm(fueling.odometerKm)}</td>
+                  <td className="text-right tabular-nums">{formatNumber(fueling.liters)}</td>
+                  <td className="text-right tabular-nums">{formatMoney(fueling.pricePerLiter)}</td>
+                  <td className="text-right tabular-nums">{formatMoney(fueling.totalCost)}</td>
+                  <td className="text-right tabular-nums">{formatKm(fueling.odometerKm)}</td>
                   <td>{fueling.fullTank ? 'cheio' : 'parcial'}</td>
-                  <td className="actions">
-                    <button className="link" onClick={() => startEdit(fueling)}>
+                  <td className="space-x-3">
+                    <button
+                      className="bg-transparent p-0 text-blue-600 hover:bg-transparent hover:underline"
+                      onClick={() => startEdit(fueling)}
+                    >
                       Editar
                     </button>
-                    <button className="link danger" onClick={() => handleDelete(fueling)}>
+                    <button
+                      className="bg-transparent p-0 text-red-600 hover:bg-transparent hover:underline"
+                      onClick={() => handleDelete(fueling)}
+                    >
                       Apagar
                     </button>
                   </td>
@@ -233,7 +248,10 @@ export function FuelingsTab({ vehicle, onChange }: { vehicle: Vehicle; onChange:
         </div>
       )}
       {nextCursor && (
-        <button className="secondary" onClick={loadMore}>
+        <button
+          className="border border-gray-200 bg-white text-gray-800 hover:bg-gray-50"
+          onClick={loadMore}
+        >
           Carregar mais
         </button>
       )}

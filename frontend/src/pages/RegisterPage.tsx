@@ -26,9 +26,9 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="auth-page">
-      <form className="card auth-card" onSubmit={handleSubmit}>
-        <h1>Criar conta</h1>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <form className="card flex w-full max-w-sm flex-col gap-4" onSubmit={handleSubmit}>
+        <h1 className="text-blue-600">Criar conta</h1>
         <label>
           Nome
           <input
@@ -61,7 +61,7 @@ export function RegisterPage() {
         <button type="submit" disabled={sending}>
           {sending ? 'Criando...' : 'Criar conta'}
         </button>
-        <p className="muted">
+        <p className="text-gray-500">
           Já tem conta? <Link to="/login">Entrar</Link>
         </p>
       </form>
