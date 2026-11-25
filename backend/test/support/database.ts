@@ -6,7 +6,7 @@ export function connectTestDatabase(): Database {
 }
 
 export async function resetDatabase(database: Database) {
-  await database.$executeRaw`TRUNCATE users, vehicles, fuelings, maintenances, review_plans CASCADE`;
+  await database.$executeRaw`TRUNCATE users, refresh_tokens, vehicles, fuelings, maintenances, review_plans CASCADE`;
 }
 
 export async function createUser(database: Database, email = 'motorista@example.com') {

@@ -7,6 +7,9 @@ const envSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   SHUTDOWN_TIMEOUT_MS: z.coerce.number().int().positive().default(10_000),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  JWT_SECRET: z.string().min(32, 'precisa ter pelo menos 32 caracteres'),
+  ACCESS_TOKEN_TTL_SECONDS: z.coerce.number().int().positive().default(900),
+  REFRESH_TOKEN_TTL_DAYS: z.coerce.number().int().positive().default(30),
 });
 
 export interface Config {
@@ -16,6 +19,11 @@ export interface Config {
   logLevel: string;
   shutdownTimeoutMs: number;
   databaseUrl: string;
+  auth: {
+    jwtSecret: string;
+    accessTokenTtlSeconds: number;
+    refreshTokenTtlDays: number;
+  };
 }
 
 export class InvalidConfigError extends Error {
@@ -40,5 +48,10 @@ export function loadConfig(env: NodeJS.ProcessEnv): Config {
     logLevel: values.LOG_LEVEL,
     shutdownTimeoutMs: values.SHUTDOWN_TIMEOUT_MS,
     databaseUrl: values.DATABASE_URL,
+    auth: {
+      jwtSecret: values.JWT_SECRET,
+      accessTokenTtlSeconds: values.ACCESS_TOKEN_TTL_SECONDS,
+      refreshTokenTtlDays: values.REFRESH_TOKEN_TTL_DAYS,
+    },
   };
 }

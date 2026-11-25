@@ -1,10 +1,10 @@
 import { buildApp } from './app.js';
 import { loadConfig } from './config.js';
-import { createDatabase, databaseReadinessCheck } from './shared/database.js';
+import { createDatabase } from './shared/database.js';
 
 const config = loadConfig(process.env);
 const database = createDatabase(config.databaseUrl);
-const app = await buildApp({ config, readinessChecks: [databaseReadinessCheck(database)] });
+const app = await buildApp({ config, database });
 
 let shuttingDown = false;
 
