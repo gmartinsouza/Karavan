@@ -49,8 +49,21 @@ async function toApiError(response: Response): Promise<ApiError> {
   return new ApiError(response.status, message);
 }
 
+// Guarda a renovação que está em andamento, se houver.
+// Se várias requisições recebem 401 ao mesmo tempo (o painel faz várias de uma vez),
+// todas esperam a MESMA renovação. Sem isso, o mesmo refresh token seria usado duas vezes,
+// e a API entende isso como roubo de token e encerra a sessão.
+let refreshing: Promise<boolean> | null = null;
+
 // Tenta renovar a sessão com o cookie. Devolve true se deu certo.
-export async function refreshSession(): Promise<boolean> {
+export function refreshSession(): Promise<boolean> {
+  refreshing ??= doRefresh().finally(() => {
+    refreshing = null;
+  });
+  return refreshing;
+}
+
+async function doRefresh(): Promise<boolean> {
   const response = await fetch(`${BASE_URL}/auth/refresh`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
