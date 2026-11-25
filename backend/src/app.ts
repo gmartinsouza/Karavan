@@ -22,6 +22,8 @@ import { maintenanceRoutes } from './modules/maintenances/routes.js';
 import { createMaintenanceService } from './modules/maintenances/service.js';
 import { reviewRoutes } from './modules/reviews/routes.js';
 import { createReviewService } from './modules/reviews/service.js';
+import { statsRoutes } from './modules/stats/routes.js';
+import { createStatsService } from './modules/stats/service.js';
 import { vehicleRoutes } from './modules/vehicles/routes.js';
 import { createVehicleService } from './modules/vehicles/service.js';
 import { databaseReadinessCheck, type Database } from './shared/database.js';
@@ -110,6 +112,11 @@ export async function buildApp({ config, database, readinessChecks }: AppDepende
   await app.register(reviewRoutes, {
     prefix: '/api/v1',
     reviews: createReviewService({ database }),
+    authenticate,
+  });
+  await app.register(statsRoutes, {
+    prefix: '/api/v1',
+    stats: createStatsService({ database }),
     authenticate,
   });
 
