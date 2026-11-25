@@ -1,6 +1,14 @@
 // Toda conversa com a API passa por aqui.
 //
-// O access token fica só numa variável, em memória (nunca no localStorage).
+// Como a sessão funciona:
+// - O access token (vale 15 min) fica só numa variável, em memória.
+//   Não vai para o localStorage, então um script malicioso na página não o encontra lá.
+// - O refresh token fica num cookie httpOnly que a API grava no login.
+//   O JavaScript não consegue ler esse cookie; o navegador o envia sozinho para /api/v1/auth.
+// - Quando a API responde 401 (token vencido), pedimos um token novo em /auth/refresh
+//   e repetimos a requisição uma vez.
+
+import type { Session } from './types';
 
 const BASE_URL = '/api/v1';
 
@@ -41,6 +49,23 @@ async function toApiError(response: Response): Promise<ApiError> {
   return new ApiError(response.status, message);
 }
 
+// Tenta renovar a sessão com o cookie. Devolve true se deu certo.
+export async function refreshSession(): Promise<boolean> {
+  const response = await fetch(`${BASE_URL}/auth/refresh`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: '{}',
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    setAccessToken(null);
+    return false;
+  }
+  const session = (await response.json()) as Session;
+  setAccessToken(session.accessToken);
+  return true;
+}
+
 function send(path: string, method: string, body?: unknown) {
   const headers: Record<string, string> = {};
   if (body !== undefined) {
@@ -58,7 +83,12 @@ function send(path: string, method: string, body?: unknown) {
 }
 
 export async function request<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
-  const response = await send(path, method, body);
+  let response = await send(path, method, body);
+
+  // access token vencido: renova e tenta de novo (as rotas /auth não entram nisso)
+  if (response.status === 401 && !path.startsWith('/auth') && (await refreshSession())) {
+    response = await send(path, method, body);
+  }
 
   if (!response.ok) {
     throw await toApiError(response);
