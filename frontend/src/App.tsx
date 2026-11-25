@@ -1,8 +1,12 @@
+// Mapa de rotas do site.
+import { Navigate, Route, Routes } from 'react-router';
+import { LoginPage } from './pages/LoginPage';
+
 export function App() {
   return (
-    <main className="container">
-      <h1>Karavan</h1>
-      <p>Controle de abastecimentos, manutenções e revisões do seu carro.</p>
-    </main>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }

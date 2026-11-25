@@ -72,3 +72,124 @@ a:hover {
   grid-column: 1 / -1;
 }
 
+/* ---------- Formulários ---------- */
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  font-weight: 400;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -1px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Botões ---------- */
+
+button,
+.button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  display: inline-block;
+}
+
+button:hover,
+.button:hover {
+  background: var(--primary-dark);
+  text-decoration: none;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+button.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+button.link {
+  background: none;
+  color: var(--primary);
+  padding: 0;
+}
+
+button.link.danger {
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+td.actions {
+  margin: 0;
+}
+
+/* ---------- Login e cadastro ---------- */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth-card h1 {
+  color: var(--primary);
+}
