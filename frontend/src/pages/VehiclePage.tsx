@@ -4,10 +4,12 @@ import { ErrorMessage } from '../components/ErrorMessage';
 import { formatKm, fuelTypeLabels } from '../format';
 import type { Vehicle } from '../types';
 import { useApi } from '../useApi';
+import { ConsumptionTab } from './vehicle/ConsumptionTab';
 import { FuelingsTab } from './vehicle/FuelingsTab';
 
 const tabs = {
   fuelings: 'Abastecimentos',
+  consumption: 'Consumo',
 };
 type Tab = keyof typeof tabs;
 
@@ -55,6 +57,7 @@ export function VehiclePage() {
 
       {/* onChange recarrega o veículo, porque um lançamento novo pode subir o odômetro */}
       {tab === 'fuelings' && <FuelingsTab vehicle={vehicle} onChange={reload} />}
+      {tab === 'consumption' && <ConsumptionTab vehicleId={vehicle.id} />}
     </>
   );
 }

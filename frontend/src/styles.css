@@ -353,6 +353,60 @@ tr:last-child td {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- Gráfico de barras ---------- */
+
+.chart {
+  margin: 0.5rem 0 0;
+}
+
+.chart figcaption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.chart-bars {
+  display: flex;
+  gap: 2px;
+  height: 140px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chart-bar-area {
+  flex: 1;
+  display: flex;
+  align-items: flex-end; /* a barra cresce de baixo para cima */
+  justify-content: center;
+}
+
+.chart-bar {
+  width: 70%;
+  max-width: 36px;
+  background: var(--primary);
+  border-radius: 4px 4px 0 0;
+}
+
+.chart-column:hover .chart-bar {
+  background: var(--primary-dark);
+}
+
+.chart-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ---------- Login e cadastro ---------- */
 
 .auth-page {
