@@ -7,11 +7,13 @@ import { useApi } from '../useApi';
 import { ConsumptionTab } from './vehicle/ConsumptionTab';
 import { FuelingsTab } from './vehicle/FuelingsTab';
 import { MaintenancesTab } from './vehicle/MaintenancesTab';
+import { ReviewsTab } from './vehicle/ReviewsTab';
 
 const tabs = {
   fuelings: 'Abastecimentos',
   consumption: 'Consumo',
   maintenances: 'Manutenções',
+  reviews: 'Revisões',
 };
 type Tab = keyof typeof tabs;
 
@@ -61,6 +63,7 @@ export function VehiclePage() {
       {tab === 'fuelings' && <FuelingsTab vehicle={vehicle} onChange={reload} />}
       {tab === 'consumption' && <ConsumptionTab vehicleId={vehicle.id} />}
       {tab === 'maintenances' && <MaintenancesTab vehicle={vehicle} onChange={reload} />}
+      {tab === 'reviews' && <ReviewsTab vehicle={vehicle} />}
     </>
   );
 }
