@@ -25,6 +25,11 @@ export const createFuelingBody = z.object({
   fullTank: z.boolean().describe('tanque completado até o fim'),
 });
 
+// Na edição todos os campos são opcionais: só muda o que for enviado.
+export const updateFuelingBody = createFuelingBody
+  .partial()
+  .refine((body) => Object.keys(body).length > 0, 'envie pelo menos um campo');
+
 export const fuelingResponse = z.object({
   id: z.uuid(),
   vehicleId: z.uuid(),
@@ -39,4 +44,5 @@ export const fuelingResponse = z.object({
 });
 
 export type CreateFuelingInput = z.infer<typeof createFuelingBody>;
+export type UpdateFuelingInput = z.infer<typeof updateFuelingBody>;
 export type ListFuelingsOptions = z.infer<typeof listFuelingsQuery>;

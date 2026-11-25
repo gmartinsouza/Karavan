@@ -5,7 +5,13 @@ import { problemSchema } from '../../shared/errors.js';
 import { pageResponse } from '../../shared/pagination.js';
 import type { Authenticate } from '../auth/authenticate.js';
 import { vehicleParams } from '../vehicles/schemas.js';
-import { createFuelingBody, fuelingParams, fuelingResponse, listFuelingsQuery } from './schemas.js';
+import {
+  createFuelingBody,
+  fuelingParams,
+  fuelingResponse,
+  listFuelingsQuery,
+  updateFuelingBody,
+} from './schemas.js';
 import type { FuelingService } from './service.js';
 
 function toFuelingResponse(fueling: Fueling) {
@@ -70,6 +76,34 @@ export const fuelingRoutes: FastifyPluginCallbackZod<{
       const fueling = await fuelings.create(request.userId, request.params.vehicleId, request.body);
       return reply.code(201).send(toFuelingResponse(fueling));
     },
+  );
+
+  app.patch(
+    '/vehicles/:vehicleId/fuelings/:fuelingId',
+    {
+      schema: {
+        tags,
+        security,
+        summary: 'Corrige um abastecimento; só os campos enviados mudam',
+        params: fuelingParams,
+        body: updateFuelingBody,
+        response: {
+          200: fuelingResponse,
+          400: problemSchema,
+          404: problemSchema,
+          422: problemSchema,
+        },
+      },
+    },
+    async (request) =>
+      toFuelingResponse(
+        await fuelings.update(
+          request.userId,
+          request.params.vehicleId,
+          request.params.fuelingId,
+          request.body,
+        ),
+      ),
   );
 
   app.delete(
